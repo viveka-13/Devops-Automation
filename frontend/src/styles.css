@@ -156,6 +156,12 @@ h1 {
   margin-top: 16px;
 }
 
+.success-message {
+  color: #86efac;
+  text-align: center;
+  margin-top: 16px;
+}
+
 .dashboard-layout {
   display: grid;
   gap: 24px;

@@ -29,6 +29,7 @@ export default function Dashboard({ token, user, onLogout }) {
     status: 'TODO'
   });
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
 
   const loadDashboard = async () => {
     try {
@@ -68,6 +69,7 @@ export default function Dashboard({ token, user, onLogout }) {
 
     if (!projectForm.name.trim()) {
       setError('Project name is required.');
+      setNotice('');
       return;
     }
 
@@ -82,9 +84,11 @@ export default function Dashboard({ token, user, onLogout }) {
 
       setProjectForm({ name: '', description: '', dueDate: '', status: 'ACTIVE' });
       setError('');
+      setNotice('Project created successfully.');
       await loadDashboard();
     } catch (err) {
-      setError('Project could not be created.');
+      setError(err.message || 'Project could not be created.');
+      setNotice('');
     }
   };
 
@@ -93,6 +97,7 @@ export default function Dashboard({ token, user, onLogout }) {
 
     if (!taskForm.projectId || !taskForm.title.trim()) {
       setError('Select a project and enter a task title.');
+      setNotice('');
       return;
     }
 
@@ -120,9 +125,11 @@ export default function Dashboard({ token, user, onLogout }) {
         status: 'TODO'
       });
       setError('');
+      setNotice('Task created successfully.');
       await loadDashboard();
     } catch (err) {
-      setError('Task could not be created.');
+      setError(err.message || 'Task could not be created.');
+      setNotice('');
     }
   };
 
@@ -286,7 +293,8 @@ export default function Dashboard({ token, user, onLogout }) {
         </div>
       </div>
 
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="error-message" role="alert">{error}</p>}
+      {notice && <p className="success-message" role="status">{notice}</p>}
     </div>
   );
 }
